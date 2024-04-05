@@ -62,11 +62,11 @@ include "db_conn.php";
 			      <td><?php echo $row["mobile"] ?></td>
             <td><?php echo $row["date"] ?></td>
             <td><?php echo $row["message"] ?></td>
-			      <td><?php echo $row["username"] ?></td>
+			      <td><?php echo $row["user_name"] ?></td>
             <td><?php echo $row["status"] ?></td>
             <td>
-              <a href="edit.php?id=<?php echo $row["id"] ?>" class="link-dark "><i class="fa-solid fa-pen-to-square fs-5 me-3 float-start"></i></a>
-              <a href="delete.php?id=<?php echo $row["id"] ?>" class="link-dark "><i class="fa-solid fa-trash fs-5 float-end"></i></a>
+              <a href="edit.php?id=<?php echo $row["id"] ?>" class="link-dark "><i class="fa-solid fa-pen-to-square fs-5 me-3 float-start">Edit</i></a>
+              <a href="delete.php?id=<?php echo $row["id"] ?>" class="link-dark "><i class="fa-solid fa-trash fs-5 float-end"></i>Delete</a>
             </td>
           </tr>
         <?php

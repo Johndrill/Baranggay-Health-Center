@@ -39,7 +39,7 @@
         </tr>
         <!--DISPLAY DOCTOR TABLE-->
         <?php
-        $conn = mysqli_connect("localhost", "root", "", "pms_db");
+        $conn = mysqli_connect("localhost", "root", "dejuan", "pms_db");
         $sql = "SELECT name, specialty FROM doctors"; // Modify the query to select only the name and specialty columns
         $result = $conn->query($sql);
 

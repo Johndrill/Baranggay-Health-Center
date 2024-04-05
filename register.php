@@ -1,11 +1,11 @@
 <?php
-include "connection.php";
+include "db_conn.php";
 
 $message = '';
 
 if (isset($_POST['save_user'])) {
-    $displayName = $_POST['display_name'];
-    $userName = $_POST['user_name'];
+    $display_name = $_POST['display_name'];
+    $user_name = $_POST['user_name'];
     $password = $_POST['password'];
 
     $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -17,20 +17,18 @@ if (isset($_POST['save_user'])) {
 
     if ($status) {
         try {
-            $con->beginTransaction();
+            $query = "INSERT INTO `users`(`display_name`, `user_name`, `password`, `profile_picture`) 
+                VALUES('$display_name', '$user_name', '$encryptedPassword', '$targetFile');";
 
-            $query = "INSERT INTO `users`(`display_name`, `username`, `password`, `profile_picture`) 
-                VALUES('$displayName', '$userName', '$encryptedPassword', '$targetFile');";
+            $stmtUser = $con->query($query);
 
-            $stmtUser = $con->prepare($query);
-            $stmtUser->execute();
-
-            $con->commit();
-
-            $message = 'User registered successfully';
-        } catch(PDOException $ex) {
-            $con->rollback();
-            if ($ex->getCode() == 23000) {
+            if ($stmtUser) {
+                $message = 'User registered successfully';
+            } else {
+                throw new Exception();
+            }
+        } catch(Exception $ex) {
+            if ($con->errno == 1062) {
                 $message = 'Username already exists. Please choose a different username.';
             } else {
                 $message = 'An error occurred while registering the user.';
@@ -40,6 +38,7 @@ if (isset($_POST['save_user'])) {
         $message = 'A problem occurred in image uploading.';
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +141,7 @@ if (isset($_POST['save_user'])) {
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="display_name">Display Name</label>
-                <input type="text" id="display_name" name="display_name" required="required" />
+                <input type="text" id="display_name" name="display_name" required="required" autocomplete="off" />
             </div>
             <div class="form-group">
                 <label for="user_name">Username</label>

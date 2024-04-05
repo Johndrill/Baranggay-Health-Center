@@ -225,8 +225,8 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_SESSION['user_name'])) {
     $username = $_SESSION['user_name'];
 
-    $query = $con->prepare("SELECT * FROM req_form WHERE username = :username");
-    $query->bindParam(':username', $username);
+    $query = $con->prepare("SELECT * FROM req_form WHERE user_name = :user_name");
+    $query->bindParam(':user_name', $username);
     $query->execute();
 
     $walkinData = $query->fetchAll(PDO::FETCH_ASSOC);

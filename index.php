@@ -7,13 +7,13 @@ include "connection.php";
 $message = '';
 
 if(isset($_POST['login'])) {
-    $userName = $_POST['user_name'];
-    $password = $_POST['password'];
+    $userName = trim($_POST['user_name']);
+    $password = trim($_POST['password']);
 
-    $encryptedPassword = password_hash($password,PASSWORD_DEFAULT);
+    // $encryptedPassword = md5('$password');
 
-    $query = "SELECT `id`, `display_name`, `username`, `profile_picture`, `role` FROM `users` 
-        WHERE `user_name` = '$userName' AND `password` = '$encryptedPassword';";
+    $query = "SELECT `id`, `display_name`, `user_name`, `profile_picture`, `role` FROM `users` 
+        WHERE `user_name` = '$userName' AND `password` = '$password'";
 
     try {
         $stmtLogin = $con->prepare($query);
@@ -25,7 +25,7 @@ if(isset($_POST['login'])) {
 
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['display_name'] = $row['display_name'];
-            $_SESSION['user_name'] = $row['username'];
+            $_SESSION['user_name'] = $row['user_name'];
             $_SESSION['profile_picture'] = $row['profile_picture'];
 
             $role = $row['role'];
